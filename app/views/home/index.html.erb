@@ -2,19 +2,3 @@
 <div class="d-flex align-items-center justify-content-center">
 <h1>Welcome To Vehicle Sharing Application</h1><br>
 </div>
-
-<%= form_with model: @passenger, url: root_path do |form| %>
-  <div class="mb-3">
-    <%= form.label :user %><br>
-    <%= form.text_field :password ,class:"form-control" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :password %><br>
-    <%= form.password_field :body ,class:"form-control" %><br>
-  </div>
-
-  <div class="mb-3">
-    <%= form.submit "Login" %>
-  </div>
-<% end %>

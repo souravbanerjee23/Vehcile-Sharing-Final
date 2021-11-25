@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_25_041359) do
+ActiveRecord::Schema.define(version: 2021_11_25_121032) do
 
   create_table "owners", force: :cascade do |t|
     t.string "name"
@@ -27,6 +27,16 @@ ActiveRecord::Schema.define(version: 2021_11_25_041359) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rents", force: :cascade do |t|
+    t.string "start_location"
+    t.string "destination"
+    t.integer "seats"
+    t.integer "ride_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ride_id"], name: "index_rents_on_ride_id"
   end
 
   create_table "rides", force: :cascade do |t|
@@ -63,5 +73,6 @@ ActiveRecord::Schema.define(version: 2021_11_25_041359) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "rents", "rides"
   add_foreign_key "rides", "owners"
 end

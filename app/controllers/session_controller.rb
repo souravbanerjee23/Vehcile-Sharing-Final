@@ -5,7 +5,7 @@ class SessionController < ApplicationController
         passenger=Passenger.find_by(email: params[:email])
         if passenger.present? &&passenger.authenticate(params[:password])
             session[:passenger_id]=passenger.id
-            redirect_to root_path, notice: "Log in Successfully"
+            redirect_to '/rents', notice: "Log in Successfully"
         else
             flash[:alert]="Invalid credentials"
             render :new

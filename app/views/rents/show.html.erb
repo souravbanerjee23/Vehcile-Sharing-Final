@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Start location:</strong>
+  <%= @rent.start_location %>
+</p>
+
+<p>
+  <strong>Destination:</strong>
+  <%= @rent.destination %>
+</p>
+
+<p>
+  <strong>Seats:</strong>
+  <%= @rent.seats %>
+</p>
+
+<p>
+  <strong>Ride:</strong>
+  <%= @rent.ride_id %>
+</p>
+
+<%= link_to 'Edit', edit_rent_path(@rent) %> |
+<%= link_to 'Back', rents_path %>
