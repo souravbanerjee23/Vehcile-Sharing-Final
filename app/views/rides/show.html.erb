@@ -1,0 +1,64 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Vehicle no:</strong>
+  <%= @ride.vehicle_no %>
+</p>
+
+<p>
+  <strong>Seats:</strong>
+  <%= @ride.seats %>
+</p>
+
+<p>
+  <strong>Start point:</strong>
+  <%= @ride.start_point %>
+</p>
+
+<p>
+  <strong>Stop1:</strong>
+  <%= @ride.stop1 %>
+</p>
+
+<p>
+  <strong>Stop2:</strong>
+  <%= @ride.stop2 %>
+</p>
+
+<p>
+  <strong>Stop3:</strong>
+  <%= @ride.stop3 %>
+</p>
+
+<p>
+  <strong>Stop4:</strong>
+  <%= @ride.stop4 %>
+</p>
+
+<p>
+  <strong>Final stop:</strong>
+  <%= @ride.final_stop %>
+</p>
+
+<p>
+  <strong>Cost:</strong>
+  <%= @ride.cost %>
+</p>
+
+<p>
+  <strong>Integer:</strong>
+  <%= @ride.integer %>
+</p>
+
+<p>
+  <strong>Discount:</strong>
+  <%= @ride.discount %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @ride.owner_id %>
+</p>
+
+<%= link_to 'Edit', edit_ride_path(@ride) %> |
+<%= link_to 'Back', rides_path %>

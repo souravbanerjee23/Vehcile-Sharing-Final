@@ -1,0 +1,77 @@
+<%= form_with(model: ride) do |form| %>
+  <% if ride.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(ride.errors.count, "error") %> prohibited this ride from being saved:</h2>
+
+      <ul>
+        <% ride.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field form-group">
+    <%= form.label :vehicle_no %>
+    <%= form.text_field :vehicle_no, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :seats %>
+    <%= form.number_field :seats, class:"form-control"%>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :start_point %>
+    <%= form.text_field :start_point, class:"form-control"%>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :stop1 %>
+    <%= form.text_field :stop1, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :stop2 %>
+    <%= form.text_field :stop2, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :stop3 %>
+    <%= form.text_field :stop3, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :stop4 %>
+    <%= form.text_field :stop4, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :final_stop %>
+    <%= form.text_field :final_stop, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :cost %>
+    <%= form.text_field :cost, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :integer %>
+    <%= form.text_field :integer, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :discount %>
+    <%= form.number_field :discount, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :owner_id %>
+    <%= form.text_field :owner_id, class:"form-control" %>
+  </div>
+  <br>
+  <div class="mb-3">
+    <%= form.submit "Create Ride" %>
+  </div>
+<% end %>

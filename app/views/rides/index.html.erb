@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rides</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Vehicle no</th>
+      <th>Seats</th>
+      <th>Start point</th>
+      <th>Stop1</th>
+      <th>Stop2</th>
+      <th>Stop3</th>
+      <th>Stop4</th>
+      <th>Final stop</th>
+      <th>Cost</th>
+      <th>Discount</th>
+      <th>Owner</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rides.each do |ride| %>
+      <tr>
+        <td><%= ride.vehicle_no %></td>
+        <td><%= ride.seats %></td>
+        <td><%= ride.start_point %></td>
+        <td><%= ride.stop1 %></td>
+        <td><%= ride.stop2 %></td>
+        <td><%= ride.stop3 %></td>
+        <td><%= ride.stop4 %></td>
+        <td><%= ride.final_stop %></td>
+        <td><%= ride.cost %></td>
+        <td><%= ride.integer %></td>
+        <td><%= ride.discount %></td>
+        <td><%= ride.owner_id %></td>
+        <td><%= link_to 'Show', ride %></td>
+        <td><%= link_to 'Edit', edit_ride_path(ride) %></td>
+        <td><%= link_to 'Destroy', ride, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ride', new_ride_path %>

@@ -1,0 +1,31 @@
+<div class="d-flex align-items-center justify-content-center">
+<h1>Passenger Registration</h1><br>
+</div>
+<%=form_with model:@passenger ,url:"/register/passengers" do |form| %>
+<% if @passenger.errors.any? %>
+<div class="alert alert-danger">
+<%= @passenger.errors.full_messages.each do|message| %>
+    <div><%=message%></div>
+    <% end %>
+</div>
+<% end %>
+<div class="mb-3">
+<%= form.label:email %>
+<%= form.text_field:email ,class:"form-control",placeholder:"souravbandyopadhyay1997@gmail.com"%>
+</div>
+<div class="mb-3">
+<%= form.label:phone %>
+<%= form.text_field:phone,class:"form-control",placeholder:"phone" %>
+</div>
+<div class="mb-3">
+<%= form.label:password %>
+<%= form.password_field:password,class:"form-control" ,placeholder:"password"%>
+</div>
+<div class="mb-3">
+<%= form.label:password_confirmation %>
+<%= form.password_field:password_confirmation,class:"form-control" ,placeholder:"confirm password"%>
+</div>
+<div class="mb-3">
+  <%= form.submit %>
+</div>
+<% end %>
