@@ -5,7 +5,10 @@ class RentsController < ApplicationController
   def index
     @rents = Rent.all
   end
-
+  
+  def viewrides
+    @rides = Ride.all
+  end
   # GET /rents/1 or /rents/1.json
   def show
   end

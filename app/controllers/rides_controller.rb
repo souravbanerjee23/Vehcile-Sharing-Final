@@ -5,7 +5,7 @@ class RidesController < ApplicationController
   def index
     @rides = Ride.all
   end
-
+ 
   # GET /rides/1 or /rides/1.json
   def show
   end

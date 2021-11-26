@@ -2,7 +2,7 @@
 
 <h1>Rents</h1>
 
-<table>
+<table class="table table-striped">
   <thead>
     <tr>
       <th>Start location</th>
@@ -23,6 +23,7 @@
         <td><%= link_to 'Show', rent %></td>
         <td><%= link_to 'Edit', edit_rent_path(rent) %></td>
         <td><%= link_to 'Destroy', rent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Bargain', edit_rent_path(rent) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +31,5 @@
 
 <br>
 
-<%= link_to 'New Rent', new_rent_path %>
+<%= link_to 'New Ride', new_rent_path %>
+<%= link_to 'View Rides', viewrides_path %>

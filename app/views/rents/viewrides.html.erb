@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Rides</h1>
+<h1>View Rides</h1>
 
 <table class="table table-striped">
   <thead>
@@ -14,10 +14,9 @@
       <th>Stop4</th>
       <th>Final stop</th>
       <th>Cost</th>
-      <th>Discount(%)</th>
+      <th>Ride-Id</th>
       <th>Owner</th>
-      <th>Ride Id</th>
-      <th colspan="30"></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -33,18 +32,10 @@
         <td><%= ride.stop4 %></td>
         <td><%= ride.final_stop %></td>
         <td><%= ride.cost %></td>
-        <td><%= ride.discount %></td>
-        <td><%= ride.owner_id %></td>
         <td><%= ride.id %></td>
-        <td><%= link_to 'Show', ride %></td>
-        <td><%= link_to 'Edit', edit_ride_path(ride) %></td>
-        <td><%= link_to 'Destroy', ride, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= ride.owner_id %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
-<br>
-
-<%= link_to 'New Ride', new_ride_path %>

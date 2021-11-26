@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :rents
   resources :rides
   root 'home#index'
+  get '/viewrides', to: "rents#viewrides"
   get '/about', to:"about#index"
   get '/register/passengers', to:'passengers#new'
   post '/register/passengers', to:'passengers#show'
