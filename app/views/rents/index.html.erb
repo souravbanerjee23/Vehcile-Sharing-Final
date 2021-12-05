@@ -9,6 +9,8 @@
       <th>Destination</th>
       <th>Seats</th>
       <th>Ride</th>
+      <th>Bookinng Status</th>
+      <th>Destroy</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,16 +22,21 @@
         <td><%= rent.destination %></td>
         <td><%= rent.seats %></td>
         <td><%= rent.ride_id %></td>
-        <td><%= link_to 'Show', rent %></td>
-        <td><%= link_to 'Edit', edit_rent_path(rent) %></td>
+        <% if (rent.waiting == false or rent.waiting == nil )&& (rent.status == false or rent.status == nil) %>
+          <td><%= link_to 'Bargain', edit_rent_path(rent) %></td>
+          <% elsif (rent.waiting == true && ( rent.status == false || rent.status == nil ))%>
+          <td><%= "Waiting" %></td>
+          <% else %>
+          <td><%= "Booked successfully" %></td>
+        <% end %>
         <td><%= link_to 'Destroy', rent, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Bargain', edit_rent_path(rent) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
 <br>
 
 <%= link_to 'New Ride', new_rent_path %>
 <%= link_to 'View Rides', viewrides_path %>
+<%= link_to 'Logout', passengers_logout_path , :method => :delete %>
+

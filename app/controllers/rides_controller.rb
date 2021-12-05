@@ -22,9 +22,14 @@ class RidesController < ApplicationController
   # POST /rides or /rides.json
   def create
     @ride = Ride.new(ride_params)
-
+    
     respond_to do |format|
       if @ride.save
+        # from @ride we will get ride id and from ride id we will fetch rent record
+        # and do source and destination validations
+        # seat validations
+        # and cost validations 
+        # booking status need to be added
         format.html { redirect_to @ride, notice: "Ride was successfully created." }
         format.json { render :show, status: :created, location: @ride }
       else
@@ -64,6 +69,6 @@ class RidesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def ride_params
-      params.require(:ride).permit(:vehicle_no, :seats, :start_point, :stop1, :stop2, :stop3, :stop4, :final_stop, :cost, :integer, :discount, :owner_id)
+      params.require(:ride).permit(:vehicle_no, :seats, :start_point, :stop1, :stop2, :stop3, :stop4, :final_stop, :cost, :date, :vehicletype, :discount, :owner_id)#: )
     end
 end

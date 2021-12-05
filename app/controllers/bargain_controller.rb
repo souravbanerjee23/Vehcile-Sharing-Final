@@ -3,3 +3,6 @@ class BargainController < ApplicationController
         
     end
 end
+
+
+#Night owl right?

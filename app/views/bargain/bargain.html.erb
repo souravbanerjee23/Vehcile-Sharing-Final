@@ -1,0 +1,37 @@
+<h2>You can bargain only once. If bargain is unsucceful ride gets cancelled<h2>
+
+<%= form_with(model: rent) do |form| %>
+    <% if rent.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(rent.errors.count, "error") %> prohibited this rent from being saved:</h2>
+  
+        <ul>
+          <% rent.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="field form-group">
+      <%= form.label :start_location %>
+      <%= form.text_field :start_location, class:"form-control"%>
+    </div>
+  
+    <div class="field form-group">
+    <%= form.label :destination %>
+    <%= form.text_field :destination, class:"form-control"%>
+  </div>
+  <div class="field form-group">
+  <%= form.label :seats %>
+  <%= form.text_field :seats, class:"form-control"%>
+  </div>
+  <div class="field form-group">
+  <%= form.label :ride_id %>
+  <%= form.text_field :ride_id, class:"form-control"%>
+  </div>
+    <div class="actions">
+    <br>
+      <%= form.submit "Book Ride"  %>
+    </div>
+  <% end %>
+  

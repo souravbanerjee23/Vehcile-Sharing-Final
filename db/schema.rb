@@ -10,15 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_25_121032) do
+ActiveRecord::Schema.define(version: 2021_12_04_111010) do
+
+  create_table "otps", force: :cascade do |t|
+    t.string "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "owners", force: :cascade do |t|
     t.string "name"
-    t.integer "phone"
     t.string "email"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "phone"
   end
 
   create_table "passengers", force: :cascade do |t|
@@ -36,6 +42,10 @@ ActiveRecord::Schema.define(version: 2021_11_25_121032) do
     t.integer "ride_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "price"
+    t.boolean "status"
+    t.datetime "date"
+    t.boolean "waiting"
     t.index ["ride_id"], name: "index_rents_on_ride_id"
   end
 
@@ -48,12 +58,14 @@ ActiveRecord::Schema.define(version: 2021_11_25_121032) do
     t.string "stop3"
     t.string "stop4"
     t.string "final_stop"
-    t.string "cost"
     t.string "integer"
     t.integer "discount"
     t.integer "owner_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "cost"
+    t.string "vehicletype"
+    t.datetime "date"
     t.index ["owner_id"], name: "index_rides_on_owner_id"
   end
 

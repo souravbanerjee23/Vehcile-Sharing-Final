@@ -56,9 +56,20 @@
     <%= form.text_field :cost, class:"form-control" %>
   </div>
 
+  <br>
+  <%= form.label :vehicle_type %>
+  <%= form.select :desired_attribute, ['Cab', 'Bus'] %>
+  <br>
+  <br>
+
   <div class="field form-group">
-    <%= form.label :integer %>
-    <%= form.text_field :integer, class:"form-control" %>
+    <%= form.label :date %>
+    <%= form.date_select :date, class:"form-control" %>
+  </div>
+
+  <div class="field form-group">
+    <%= form.label :time %>
+    <%= form.time_field :time, class:"form-control" %>
   </div>
 
   <div class="field form-group">

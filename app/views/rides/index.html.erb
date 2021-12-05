@@ -1,3 +1,4 @@
+
 <p id="notice"><%= notice %></p>
 
 <h1>Rides</h1>
@@ -17,6 +18,7 @@
       <th>Discount(%)</th>
       <th>Owner</th>
       <th>Ride Id</th>
+      <th>Date</th>
       <th colspan="30"></th>
     </tr>
   </thead>
@@ -36,6 +38,7 @@
         <td><%= ride.discount %></td>
         <td><%= ride.owner_id %></td>
         <td><%= ride.id %></td>
+        <td><%= ride.date %></td>
         <td><%= link_to 'Show', ride %></td>
         <td><%= link_to 'Edit', edit_ride_path(ride) %></td>
         <td><%= link_to 'Destroy', ride, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -48,3 +51,5 @@
 <br>
 
 <%= link_to 'New Ride', new_ride_path %>
+<%= link_to 'Logout', owners_logout_path , :method => :delete %>
+

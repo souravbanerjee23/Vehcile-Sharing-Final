@@ -1,6 +1,21 @@
-<h1>Editing Rent</h1>
+<h1>Bargain</h1>
 
-<%= render 'form', rent: @rent %>
+<%= form_with model: @rent do |form| %>
+  <div>
+    <%= form.label :price %><br>
+    <%= form.text_field  :price %>
+  </div>
+
+  <div>
+    <%= form.label :ride_id %><br>
+    <%= form.text_field :ride_id %>
+  </div>
+  <br> 
+  <div>
+    <%= form.submit "Bargain" %>
+  </div>
+<% end %>
+
 
 <%= link_to 'Show', @rent %> |
 <%= link_to 'Back', rents_path %>

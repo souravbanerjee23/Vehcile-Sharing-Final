@@ -23,6 +23,12 @@
 <%= form.label :seats %>
 <%= form.text_field :seats, class:"form-control"%>
 </div>
+<br>
+<div class="field form-group">
+<%= form.label :date %>
+<%= form.date_select :date, :value => Date.today ,class:"form-control"%>
+</div>
+</br>
 <div class="field form-group">
 <%= form.label :ride_id %>
 <%= form.text_field :ride_id, class:"form-control"%>
