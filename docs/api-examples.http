@@ -1,0 +1,44 @@
+### Create vehicle
+POST http://localhost:8080/api/vehicles
+Content-Type: application/json
+
+{
+  "vehicleNo": "WB01AB1234",
+  "seats": 4,
+  "startPoint": "Kolkata",
+  "finalStop": "Durgapur",
+  "cost": 800,
+  "discount": 50
+}
+
+### Create ride
+POST http://localhost:8080/api/rides
+Content-Type: application/json
+
+{
+  "ownerEmail": "owner@example.com",
+  "vehicleNo": "WB01AB1234",
+  "seats": 4,
+  "startPoint": "Kolkata",
+  "stop1": "Burdwan",
+  "finalStop": "Durgapur",
+  "cost": 800,
+  "discount": 50,
+  "date": "2026-09-20"
+}
+
+### Search rides
+GET http://localhost:8080/api/rides/search?from=Kolkata&to=Durgapur&date=2026-09-20
+
+### Book seats
+POST http://localhost:8080/api/bookings
+Content-Type: application/json
+
+{
+  "rideId": 1,
+  "passengerEmail": "passenger@example.com",
+  "startLocation": "Kolkata",
+  "destination": "Durgapur",
+  "seats": 2,
+  "date": "2026-09-20"
+}
