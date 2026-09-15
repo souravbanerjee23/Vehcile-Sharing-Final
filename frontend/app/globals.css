@@ -1,0 +1,71 @@
+:root {
+  --bg: #f6f8fb;
+  --surface: #ffffff;
+  --text: #162033;
+  --muted: #667085;
+  --primary: #173b70;
+  --primary-2: #235ca6;
+  --line: #dde3ec;
+  --success: #e9f7ef;
+  --error: #fff0f0;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.shell { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+.hero { display: grid; grid-template-columns: 1.5fr .8fr; gap: 42px; align-items: center; padding: 72px 0 36px; }
+.eyebrow { display: inline-block; margin-bottom: 8px; color: var(--primary-2); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+h1 { margin: 0; max-width: 760px; font-size: clamp(42px, 7vw, 72px); line-height: .98; letter-spacing: -.04em; }
+h2 { margin: 0 0 18px; font-size: 28px; }
+h3 { margin: 12px 0 8px; font-size: 20px; }
+.hero-copy { max-width: 680px; margin: 22px 0 0; color: var(--muted); font-size: 18px; line-height: 1.65; }
+.hero-actions { display: flex; gap: 12px; margin-top: 28px; }
+.button { border: 0; border-radius: 10px; padding: 12px 18px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.primary { background: var(--primary); color: white; }
+.primary:hover { background: #0f2b55; }
+.secondary { background: #eef3f9; color: var(--primary); border: 1px solid #cfdaea; }
+.full { width: 100%; margin-top: 18px; }
+.stats-card { background: linear-gradient(160deg, #173b70, #235ca6); color: white; border-radius: 22px; padding: 28px; box-shadow: 0 18px 50px rgba(23,59,112,.18); }
+.stats-card div { display: flex; align-items: baseline; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.18); }
+.stats-card div:last-child { border-bottom: 0; }
+.stats-card strong { font-size: 30px; }
+.stats-card span { opacity: .82; font-size: 13px; }
+.panel { margin-top: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 26px; box-shadow: 0 8px 28px rgba(16,24,40,.04); }
+.section-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.text-button { border: 0; background: transparent; color: var(--primary-2); font-weight: 700; }
+.grid-form { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.search-form { grid-template-columns: 1fr 1fr 1fr auto; align-items: end; }
+label { display: grid; gap: 7px; color: #344054; font-size: 13px; font-weight: 700; }
+input { width: 100%; border: 1px solid #ccd5e2; border-radius: 9px; padding: 11px 12px; background: white; color: var(--text); }
+input:focus { outline: 2px solid rgba(35,92,166,.18); border-color: var(--primary-2); }
+.span-2 { grid-column: span 2; }
+.ride-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-top: 24px; }
+.ride-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: #fbfcfe; }
+.ride-card-top { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; }
+.ride-card-top strong { color: var(--primary); font-size: 18px; }
+.ride-card p { color: var(--muted); line-height: 1.5; }
+.chip { display: inline-block; padding: 6px 9px; border-radius: 999px; background: #eef7f1; color: #257144; font-size: 12px; font-weight: 700; }
+.two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.notice { margin-top: 10px; border-radius: 10px; padding: 13px 16px; font-weight: 700; }
+.success { background: var(--success); color: #21643b; }
+.error { background: var(--error); color: #9d2222; }
+.lookup { display: flex; gap: 10px; }
+.booking-list { display: grid; gap: 10px; margin-top: 18px; }
+.booking-list div { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding: 14px 0 4px; }
+.booking-list span { color: var(--muted); font-size: 13px; }
+main { padding-bottom: 48px; }
+@media (max-width: 900px) {
+  .hero, .two-column { grid-template-columns: 1fr; }
+  .search-form { grid-template-columns: 1fr 1fr; }
+  .ride-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .hero { padding-top: 44px; }
+  .hero-actions, .lookup, .booking-list div { align-items: stretch; flex-direction: column; }
+  .grid-form, .search-form, .ride-grid { grid-template-columns: 1fr; }
+  .span-2 { grid-column: span 1; }
+  .panel { padding: 20px; }
+}
