@@ -35,6 +35,23 @@ export type Vehicle = {
   discount?: number;
 };
 
+export type UserRole = 'PASSENGER' | 'DRIVER';
+
+type OtpRequestResponse = {
+  message: string;
+  contact: string;
+  role: UserRole;
+  expiresInMinutes: number;
+  developmentOtp?: string;
+};
+
+type OtpVerifyResponse = {
+  authenticated: boolean;
+  message?: string;
+  contact: string;
+  role: UserRole;
+};
+
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8080';
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -66,5 +83,9 @@ export const api = {
   createVehicle: (vehicle: Vehicle) => request<Vehicle>('/api/vehicles', { method: 'POST', body: JSON.stringify(vehicle) }),
   createBooking: (booking: Booking) => request<Booking>('/api/bookings', { method: 'POST', body: JSON.stringify(booking) }),
   listBookings: (passengerEmail?: string) =>
-    request<Booking[]>(passengerEmail ? `/api/bookings?passengerEmail=${encodeURIComponent(passengerEmail)}` : '/api/bookings')
+    request<Booking[]>(passengerEmail ? `/api/bookings?passengerEmail=${encodeURIComponent(passengerEmail)}` : '/api/bookings'),
+  requestOtp: (contact: string, role: UserRole) =>
+    request<OtpRequestResponse>('/api/auth/request-otp', { method: 'POST', body: JSON.stringify({ contact, role }) }),
+  verifyOtp: (contact: string, role: UserRole, code: string) =>
+    request<OtpVerifyResponse>('/api/auth/verify-otp', { method: 'POST', body: JSON.stringify({ contact, role, code }) })
 };
