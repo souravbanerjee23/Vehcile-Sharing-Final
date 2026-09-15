@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 public class OtpController {
+
     private final OtpService otpService;
 
     public OtpController(OtpService otpService) {
@@ -21,27 +22,34 @@ public class OtpController {
 
     @PostMapping("/request-otp")
     public Map<String, Object> requestOtp(@RequestBody OtpRequest request) {
-        String code = otpService.createOtp(request.contact(), request.role());
+        otpService.createOtp(request.contact(), request.role());
+
         Map<String, Object> response = new HashMap<>();
-        response.put("message", "OTP generated for local development");
+        response.put("message", "OTP sent successfully");
         response.put("contact", request.contact());
         response.put("role", request.role());
         response.put("expiresInMinutes", 5);
-        response.put("developmentOtp", code);
         return response;
     }
 
     @PostMapping("/verify-otp")
     public ResponseEntity<Map<String, Object>> verifyOtp(@RequestBody OtpVerifyRequest request) {
         boolean valid = otpService.verifyOtp(request.contact(), request.role(), request.code());
+
         Map<String, Object> response = new HashMap<>();
         response.put("authenticated", valid);
         response.put("contact", request.contact());
         response.put("role", request.role());
         response.put("message", valid ? "OTP verified successfully" : "Invalid or expired OTP");
-        return valid ? ResponseEntity.ok(response) : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+
+        return valid
+                ? ResponseEntity.ok(response)
+                : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
-    public record OtpRequest(String contact, UserRole role) {}
-    public record OtpVerifyRequest(String contact, UserRole role, String code) {}
+    public record OtpRequest(String contact, UserRole role) {
+    }
+
+    public record OtpVerifyRequest(String contact, UserRole role, String code) {
+    }
 }
