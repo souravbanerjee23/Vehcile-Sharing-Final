@@ -14,50 +14,86 @@ export default function RoleLogin({ role, title, description, onAuthenticated }:
   const [contact, setContact] = useState('');
   const [otp, setOtp] = useState('');
   const [sent, setSent] = useState(false);
-  const [devOtp, setDevOtp] = useState('');
   const [status, setStatus] = useState('');
 
   async function requestOtp(event: FormEvent) {
     event.preventDefault();
-    const result = await api.requestOtp(contact, role);
-    setSent(true);
-    setDevOtp(result.developmentOtp ?? '');
-    setStatus(`OTP generated for ${contact}.`);
+    try {
+      await api.requestOtp(contact, role);
+      setSent(true);
+      setStatus(`OTP sent to ${contact}.`);
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Unable to send OTP.');
+    }
   }
 
   async function verifyOtp(event: FormEvent) {
     event.preventDefault();
-    const result = await api.verifyOtp(contact, role, otp);
-    if (!result.authenticated) {
-      setStatus(result.message || 'Invalid OTP.');
-      return;
+    try {
+      const result = await api.verifyOtp(contact, role, otp);
+      if (!result.authenticated) {
+        setStatus(result.message || 'Invalid or expired OTP.');
+        return;
+      }
+
+      setStatus('Login successful.');
+      onAuthenticated(contact, role);
+    } catch (error) {
+      setStatus(error instanceof Error ? error.message : 'Unable to verify OTP.');
     }
-    setStatus('Login successful.');
-    onAuthenticated(contact, role);
+  }
+
+  function changeAccount() {
+    setSent(false);
+    setOtp('');
+    setStatus('');
   }
 
   return (
     <div className="login-card">
-      <span className="eyebrow">{role === 'DRIVER' ? 'For ride owners' : 'For passengers'}</span>
+      <span className="eyebrow">
+        {role === 'DRIVER' ? 'For ride owners' : 'For passengers'}
+      </span>
       <h3>{title}</h3>
       <p>{description}</p>
+
       {!sent ? (
         <form className="login-form" onSubmit={requestOtp}>
-          <label>Email or phone
-            <input required value={contact} onChange={e => setContact(e.target.value)} placeholder="you@example.com" />
+          <label>
+            Email or phone
+            <input
+              required
+              value={contact}
+              onChange={event => setContact(event.target.value)}
+              placeholder="you@example.com"
+            />
           </label>
-          <button className="button primary" type="submit">Send OTP</button>
+          <button className="button primary" type="submit">
+            Send OTP
+          </button>
         </form>
       ) : (
         <form className="login-form" onSubmit={verifyOtp}>
-          <label>Enter OTP
-            <input required inputMode="numeric" maxLength={6} value={otp} onChange={e => setOtp(e.target.value)} placeholder="6-digit OTP" />
+          <label>
+            Enter OTP
+            <input
+              required
+              inputMode="numeric"
+              maxLength={6}
+              value={otp}
+              onChange={event => setOtp(event.target.value)}
+              placeholder="6-digit OTP"
+            />
           </label>
-          <button className="button primary" type="submit">Verify & continue</button>
-          <button className="text-button" type="button" onClick={() => setSent(false)}>Use another account</button>
+          <button className="button primary" type="submit">
+            Verify & continue
+          </button>
+          <button className="text-button" type="button" onClick={changeAccount}>
+            Use another account
+          </button>
         </form>
       )}
-      {devOtp ? <small className="dev-otp">Development OTP: {devOtp}</small> : null}
+
       {status ? <p className="login-status">{status}</p> : null}
     </div>
   );
