@@ -1,7 +1,8 @@
 'use client';
 
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { api, Booking, Ride } from '@/lib/api';
+import RoleLogin from '@/components/RoleLogin';
+import { api, Booking, Ride, UserRole } from '@/lib/api';
 
 const emptyRide: Ride = {
   ownerEmail: '',
@@ -33,6 +34,7 @@ export default function HomePage() {
   const [bookingForm, setBookingForm] = useState<Booking>(emptyBooking);
   const [bookingEmail, setBookingEmail] = useState('');
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [session, setSession] = useState<{ contact: string; role: UserRole } | null>(null);
 
   async function loadRides() {
     try {
@@ -70,9 +72,13 @@ export default function HomePage() {
 
   async function handlePublish(event: FormEvent) {
     event.preventDefault();
+    if (session?.role !== 'DRIVER') {
+      setError('Please sign in as a ride owner before publishing a ride.');
+      return;
+    }
     try {
       setError('');
-      await api.createRide({ ...rideForm, seats: Number(rideForm.seats), cost: Number(rideForm.cost), discount: Number(rideForm.discount ?? 0) });
+      await api.createRide({ ...rideForm, ownerEmail: rideForm.ownerEmail || session.contact, seats: Number(rideForm.seats), cost: Number(rideForm.cost), discount: Number(rideForm.discount ?? 0) });
       setRideForm(emptyRide);
       setMessage('Ride published successfully.');
       await loadRides();
@@ -83,9 +89,13 @@ export default function HomePage() {
 
   async function handleBook(event: FormEvent) {
     event.preventDefault();
+    if (session?.role !== 'PASSENGER') {
+      setError('Please sign in as a passenger before booking a ride.');
+      return;
+    }
     try {
       setError('');
-      await api.createBooking({ ...bookingForm, rideId: Number(bookingForm.rideId), seats: Number(bookingForm.seats) });
+      await api.createBooking({ ...bookingForm, passengerEmail: bookingForm.passengerEmail || session.contact, rideId: Number(bookingForm.rideId), seats: Number(bookingForm.seats) });
       setBookingForm(emptyBooking);
       setMessage('Booking confirmed.');
       await loadRides();
@@ -98,9 +108,21 @@ export default function HomePage() {
     event.preventDefault();
     try {
       setError('');
-      setBookings(await api.listBookings(bookingEmail));
+      setBookings(await api.listBookings(bookingEmail || session?.contact));
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Unable to load bookings.');
+    }
+  }
+
+  function handleAuthenticated(contact: string, role: UserRole) {
+    setSession({ contact, role });
+    setError('');
+    setMessage(`${role === 'DRIVER' ? 'Ride owner' : 'Passenger'} login successful.`);
+    if (role === 'DRIVER') {
+      setRideForm(current => ({ ...current, ownerEmail: contact }));
+    } else {
+      setBookingForm(current => ({ ...current, passengerEmail: contact }));
+      setBookingEmail(contact);
     }
   }
 
@@ -111,23 +133,52 @@ export default function HomePage() {
           <span className="eyebrow">Vehicle Sharing Platform</span>
           <h1>Share rides. Fill seats. Travel smarter.</h1>
           <p className="hero-copy">
-            A Next.js and React interface backed by Java 17, Spring Boot, REST APIs and JPA/Hibernate.
+            Find people travelling your route, reserve an available seat, or offer your own ride and split travel costs. Search, book and manage trips from one simple platform.
           </p>
           <div className="hero-actions">
             <a className="button primary" href="#search">Find a ride</a>
-            <a className="button secondary" href="#publish">Publish a ride</a>
+            <a className="button secondary" href="#login">Sign in</a>
           </div>
         </div>
         <div className="stats-card">
-          <div><strong>{rides.length}</strong><span>rides loaded</span></div>
-          <div><strong>{availableSeats}</strong><span>available seats</span></div>
-          <div><strong>REST</strong><span>Spring Boot API</span></div>
+          <div><strong>{rides.length}</strong><span>rides available</span></div>
+          <div><strong>{availableSeats}</strong><span>open seats</span></div>
+          <div><strong>OTP</strong><span>secure role-based sign in</span></div>
         </div>
       </section>
 
       {(error || message) && (
         <div className={`shell notice ${error ? 'error' : 'success'}`}>{error || message}</div>
       )}
+
+      <section id="login" className="shell panel auth-panel">
+        <div className="section-heading auth-heading">
+          <div>
+            <span className="eyebrow">Secure access</span>
+            <h2>Choose how you want to travel</h2>
+          </div>
+          {session ? (
+            <div className="session-pill">
+              Signed in as {session.role === 'DRIVER' ? 'Ride owner' : 'Passenger'} · {session.contact}
+              <button className="text-button" type="button" onClick={() => setSession(null)}>Sign out</button>
+            </div>
+          ) : null}
+        </div>
+        <div className="login-grid">
+          <RoleLogin
+            role="PASSENGER"
+            title="Passenger login"
+            description="Verify your email or phone with an OTP to book seats and view your trips."
+            onAuthenticated={handleAuthenticated}
+          />
+          <RoleLogin
+            role="DRIVER"
+            title="Ride owner login"
+            description="Verify your email or phone with an OTP to publish rides and manage available seats."
+            onAuthenticated={handleAuthenticated}
+          />
+        </div>
+      </section>
 
       <section id="search" className="shell panel">
         <div className="section-heading">
@@ -136,7 +187,7 @@ export default function HomePage() {
         </div>
         <form className="grid-form search-form" onSubmit={handleSearch}>
           <label>From<input required value={search.from} onChange={e => setSearch({ ...search, from: e.target.value })} placeholder="Kolkata" /></label>
-          <label>To<input required value={search.to} onChange={e => setSearch({ ...search, to: e.target.value })} placeholder="Durgapur" /></label>
+          <label>To<input required value={search.to} onChange={e => setSearch({ ...search, to: e.target.value })} placeholder="Digha" /></label>
           <label>Date<input required type="date" value={search.date} onChange={e => setSearch({ ...search, date: e.target.value })} /></label>
           <button className="button primary" type="submit">Search</button>
         </form>
@@ -150,6 +201,7 @@ export default function HomePage() {
               {ride.discount ? <span className="chip">₹{ride.discount} discount</span> : null}
               <button className="button secondary full" onClick={() => setBookingForm({
                 ...bookingForm,
+                passengerEmail: session?.role === 'PASSENGER' ? session.contact : bookingForm.passengerEmail,
                 rideId: ride.id ?? 0,
                 startLocation: ride.startPoint,
                 destination: ride.finalStop,
@@ -162,7 +214,8 @@ export default function HomePage() {
 
       <section className="shell two-column">
         <div id="publish" className="panel">
-          <span className="eyebrow">For owners</span><h2>Publish a ride</h2>
+          <span className="eyebrow">For ride owners</span><h2>Publish a ride</h2>
+          {session?.role !== 'DRIVER' ? <p className="access-note">Sign in as a ride owner above to publish a journey.</p> : null}
           <form className="grid-form" onSubmit={handlePublish}>
             <label>Owner email<input required type="email" value={rideForm.ownerEmail} onChange={e => setRideForm({ ...rideForm, ownerEmail: e.target.value })} /></label>
             <label>Vehicle number<input required value={rideForm.vehicleNo} onChange={e => setRideForm({ ...rideForm, vehicleNo: e.target.value })} /></label>
@@ -178,6 +231,7 @@ export default function HomePage() {
 
         <div className="panel">
           <span className="eyebrow">For passengers</span><h2>Book seats</h2>
+          {session?.role !== 'PASSENGER' ? <p className="access-note">Sign in as a passenger above to confirm a booking.</p> : null}
           <form className="grid-form" onSubmit={handleBook}>
             <label>Ride ID<input required min="1" type="number" value={bookingForm.rideId || ''} onChange={e => setBookingForm({ ...bookingForm, rideId: Number(e.target.value) })} /></label>
             <label>Email<input required type="email" value={bookingForm.passengerEmail} onChange={e => setBookingForm({ ...bookingForm, passengerEmail: e.target.value })} /></label>
